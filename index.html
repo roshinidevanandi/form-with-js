@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Account</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <form id="form" action="/" onsubmit="return validateForm()">
+        <h1>Create Your Account</h1>
+
+        <label for="first_name">First Name:</label> 
+        <input type="text" name="first_name" id="first_name"><br><br>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" name="last_name" id="last_name"><br><br>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="text" name="dob" placeholder="DD-MM-YYYY" id="dob" oninput="dob()"><br><br>
+        <p id="dobError" class="error"></p>
+
+        <label for="mobile">Mobile No:</label>
+        <input type="text" name="mobile" id="mobile" oninput="mobile()"><br><br>
+        <p id="mnoError" class="error"></p>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" oninput="email()"><br><br>
+        <p id="emailError" class="error"></p>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" oninput="password()"><br><br>
+        <p id="pwdError" class="error"></p>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <script>
+        function dob() {
+            let dob = document.getElementById("dob");
+            let dobError = document.getElementById("dobError");
+            let dob_pattern = /\d{2}-\d{2}-\d{4}/;
+            if (dob_pattern.test(dob.value)) {
+                dobError.innerText = "";
+            } else {
+                dobError.innerText = "Invalid format of date of birth (DD-MM-YYYY)";
+            }
+        }
+
+        function mobile() {
+            let mobile = document.getElementById("mobile");
+            let mobileError = document.getElementById("mnoError");
+            let mobile_pattern = /^\d{10}$/;
+            if (mobile_pattern.test(mobile.value)) {
+                mobileError.innerText = "";
+            } else {
+                mobileError.innerText = "Mobile number must be exactly 10 digits";
+            }
+        }
+
+        function email() {
+            let email = document.getElementById("email");
+            let emailError = document.getElementById("emailError");
+            let email_pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (email_pattern.test(email.value)) {
+                emailError.innerText = "";
+            } else {
+                emailError.innerText = "Invalid email format";
+            }
+        }
+
+        function password() {
+            let password = document.getElementById("password");
+            let pwdError = document.getElementById("pwdError");
+            let pwd_pattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
+            if (pwd_pattern.test(password.value)) {
+                pwdError.innerText = "";
+            } else {
+                pwdError.innerText = "Password must be at least 8 characters, including uppercase, lowercase, a number, and a special character.";
+            }
+        }
+
+        // Form validation before submitting
+        function validateForm() {
+            dob();
+            mobile();
+            email();
+            password();
+            
+            // Check if any error message is shown, if so prevent form submission
+            let errors = document.getElementsByClassName('error');
+            for (let error of errors) {
+                if (error.innerText !== "") {
+                    return false; // prevent form submission
+                }
+            }
+            return true; // allow form submission
+        }
+    </script>
+</body>
+</html>
